@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<moe.fuqiuluo.mamu.widget.FixedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_background"
+    android:elevation="@dimen/floating_elevation_dialog"
+    android:orientation="vertical"
+    app:maxHeightPercent="0.5"
+    app:maxWidthPercent="0.85">
+
+    <!-- 标题 -->
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/FloatingText.H2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/floating_spacing_lg"
+        android:text="@string/script_status_error"
+        android:textColor="@color/floating_error" />
+
+    <!-- 分隔线 -->
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/floating_spacing_lg"
+        app:dividerColor="@color/floating_divider" />
+
+    <!-- 错误信息（可滚动） -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:padding="@dimen/floating_spacing_lg"
+            android:textColor="@color/floating_text_primary"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/floating_text_caption" />
+
+    </ScrollView>
+
+    <!-- 分隔线 -->
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/floating_spacing_lg"
+        app:dividerColor="@color/floating_divider" />
+
+    <!-- 按钮区域：复制 / 确定 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:padding="@dimen/floating_spacing_md">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_copy"
+            style="@style/FloatingButton.Text.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/floating_min_button_width"
+            android:text="@string/button_copy" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_ok"
+            style="@style/FloatingButton.Text.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/floating_spacing_sm"
+            android:minWidth="@dimen/floating_min_button_width"
+            android:text="@string/button_confirm" />
+
+    </LinearLayout>
+
+</moe.fuqiuluo.mamu.widget.FixedLinearLayout>

@@ -115,6 +115,11 @@ impl SearchEngineManager {
         self.shared_buffer.clear();
     }
 
+    /// Checks if the shared buffer is set.
+    pub fn is_shared_buffer_set(&self) -> bool {
+        self.shared_buffer.is_set()
+    }
+
     /// Checks if a search is currently running.
     pub fn is_searching(&self) -> bool {
         if let Some(ref handle) = self.search_handle {
@@ -336,6 +341,7 @@ impl SearchEngineManager {
                     a
                 });
 
+            info!("Raw search results before dedup: {}", all_results.len());
             let start = Instant::now();
             all_results.sort_unstable_by(|a, b| a.addr.cmp(&b.addr));
             all_results.dedup();

@@ -138,6 +138,26 @@
     <string name="tab_saved_addresses">保存的地址</string>
     <string name="tab_memory_preview">内存预览</string>
     <string name="tab_breakpoints">断点</string>
+    <string name="tab_script">脚本</string>
+
+    <!-- 脚本引擎 -->
+    <string name="script_run">运行脚本</string>
+    <string name="script_stop">停止脚本</string>
+    <string name="script_clear_log">清除日志</string>
+    <string name="script_back">返回上级</string>
+    <string name="script_output_label">输出日志</string>
+    <string name="script_status_idle">就绪</string>
+    <string name="script_status_running">运行中…</string>
+    <string name="script_status_completed">执行完成</string>
+    <string name="script_status_cancelled">已取消</string>
+    <string name="script_status_error">执行出错</string>
+    <string name="script_error_empty">脚本内容为空</string>
+    <string name="script_error_no_file">请先选择一个脚本文件</string>
+    <string name="script_error_already_running">已有脚本正在运行</string>
+    <string name="script_label_file">文件：</string>
+    <string name="script_no_file_selected">未选择文件</string>
+    <string name="script_browse">…</string>
+    <string name="script_empty_dir">目录为空\n请将 .lua 脚本放入 /sdcard/mamu/scripts/</string>
 
     <!-- 指针扫描 Dialog -->
     <string name="pointer_scan_dialog_title">指针扫描</string>

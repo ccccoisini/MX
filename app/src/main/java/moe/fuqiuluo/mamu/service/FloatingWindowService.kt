@@ -57,6 +57,7 @@ import moe.fuqiuluo.mamu.floating.dialog.CustomDialog
 import moe.fuqiuluo.mamu.floating.dialog.MemoryRangeDialog
 import moe.fuqiuluo.mamu.floating.dialog.OffsetCalculatorDialog
 import moe.fuqiuluo.mamu.floating.dialog.OffsetXorDialog
+import moe.fuqiuluo.mamu.floating.dialog.ScriptExecutionDialog
 import moe.fuqiuluo.mamu.floating.event.FloatingEventBus
 import moe.fuqiuluo.mamu.floating.event.NavigateToMemoryAddressEvent
 import moe.fuqiuluo.mamu.floating.event.ProcessStateEvent
@@ -180,6 +181,8 @@ class FloatingWindowService : Service(), ProcessDeathMonitor.Callback {
                     is UIActionEvent.ShowOffsetXorDialog -> {
                         showOffsetXorDialog(event.selectedAddresses)
                     }
+
+                    is UIActionEvent.ShowScriptDialog -> showScriptExecutionDialog()
 
                     is UIActionEvent.BindProcessRequest -> handleBindProcess(event.process)
 
@@ -626,6 +629,17 @@ class FloatingWindowService : Service(), ProcessDeathMonitor.Callback {
         dialog.show()
     }
 
+    /**
+     * 显示脚本执行对话框
+     */
+    private fun showScriptExecutionDialog() {
+        val dialog = ScriptExecutionDialog(
+            context = this,
+            notification = notification
+        )
+        dialog.show()
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private fun setupFloatingIcon() {
         val preferTopMost = MMKV.defaultMMKV().topMostLayer
@@ -797,7 +811,6 @@ class FloatingWindowService : Service(), ProcessDeathMonitor.Callback {
                 newTab().setIcon(R.drawable.icon_bug_report_24px)
                     .setContentDescription(getString(R.string.tab_breakpoints))
             )
-
             addOnTabSelectedListener(object :
                 com.google.android.material.tabs.TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: com.google.android.material.tabs.TabLayout.Tab?) {

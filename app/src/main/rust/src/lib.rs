@@ -4,6 +4,7 @@ pub mod disasm;
 pub mod ext;
 pub mod jni_interface;
 pub mod pointer_scan;
+pub mod script;
 pub mod search;
 pub mod wuwa;
 

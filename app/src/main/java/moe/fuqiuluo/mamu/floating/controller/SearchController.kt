@@ -230,6 +230,7 @@ class SearchController(
                 icon = R.drawable.icon_play_arrow_24px,
                 label = "执行脚本"
             ) {
+                FloatingEventBus.tryEmitUIAction(UIActionEvent.ShowScriptDialog)
             },
             ToolbarAction(
                 id = 8,

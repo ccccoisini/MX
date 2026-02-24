@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<moe.fuqiuluo.mamu.widget.FixedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_background"
+    android:elevation="@dimen/floating_elevation_dialog"
+    android:orientation="vertical"
+    app:maxHeightPercent="0.85"
+    app:maxWidthPercent="0.7">
+
+    <!-- 标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/floating_spacing_lg"
+        android:paddingBottom="@dimen/floating_spacing_md">
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/FloatingText.H1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/script_run" />
+
+    </LinearLayout>
+
+    <!-- 分隔线 -->
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/floating_spacing_lg"
+        app:dividerColor="@color/floating_divider" />
+
+    <!-- 可滚动内容区域 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 文件选择区域 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/floating_spacing_lg"
+                android:paddingVertical="@dimen/floating_spacing_md">
+
+                <!-- 标签 + 浏览按钮 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/FloatingText.Caption"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/script_label_file" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_browse"
+                        style="@style/FloatingButton.Text.White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/script_browse" />
+
+                </LinearLayout>
+
+                <!-- 文件路径（两行完整显示） -->
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_selected_file"
+                    style="@style/FloatingText.Body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textSize="13sp"
+                    android:text="@string/script_no_file_selected"
+                    android:textColor="@color/floating_text_secondary" />
+
+            </LinearLayout>
+
+            <!-- 状态文本 -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_script_status"
+                style="@style/FloatingText.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/floating_spacing_lg"
+                android:paddingBottom="@dimen/floating_spacing_md"
+                android:text="@string/script_status_idle" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- 分隔线 -->
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/floating_spacing_lg"
+        app:dividerColor="@color/floating_divider" />
+
+    <!-- 按钮区域：运行 / 停止 / 取消（始终可见） -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/floating_spacing_md">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_run_script"
+            style="@style/FloatingButton.Text.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:minWidth="@dimen/floating_min_button_width"
+            android:text="@string/script_run" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_stop_script"
+            style="@style/FloatingButton.Text.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:minWidth="@dimen/floating_min_button_width"
+            android:text="@string/script_stop" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            style="@style/FloatingButton.Text.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/floating_min_button_width"
+            android:text="@string/button_cancel" />
+
+    </LinearLayout>
+
+</moe.fuqiuluo.mamu.widget.FixedLinearLayout>

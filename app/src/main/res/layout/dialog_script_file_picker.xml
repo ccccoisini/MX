@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<moe.fuqiuluo.mamu.widget.FixedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_background"
+    android:elevation="@dimen/floating_elevation_dialog"
+    android:orientation="vertical"
+    app:maxHeightPercent="0.65"
+    app:maxWidthPercent="0.85">
+
+    <!-- 标题栏：返回 + 路径 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/floating_spacing_md"
+        android:paddingVertical="@dimen/floating_spacing_sm">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_back"
+            style="@style/FloatingButton.MaterialIcon.IconOnly"
+            android:layout_width="@dimen/floating_icon_md"
+            android:layout_height="@dimen/floating_icon_md"
+            app:icon="@drawable/icon_arrow_left_alt_24px" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_current_path"
+            style="@style/FloatingText.Caption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="start"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/floating_spacing_xs" />
+
+    </LinearLayout>
+
+    <!-- 分隔线 -->
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/floating_spacing_md"
+        app:dividerColor="@color/floating_divider" />
+
+    <!-- 文件列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_file_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fadeScrollbars="false"
+        android:paddingTop="@dimen/floating_spacing_xs"
+        android:paddingBottom="@dimen/floating_spacing_xs"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <!-- 空状态 -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_empty"
+        style="@style/FloatingText.Caption"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/script_empty_dir"
+        android:visibility="gone" />
+
+    <!-- 分隔线 -->
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/floating_spacing_md"
+        app:dividerColor="@color/floating_divider" />
+
+    <!-- 按钮区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:padding="@dimen/floating_spacing_md">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            style="@style/FloatingButton.Text.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/floating_min_button_width"
+            android:text="@string/button_cancel" />
+
+    </LinearLayout>
+
+</moe.fuqiuluo.mamu.widget.FixedLinearLayout>

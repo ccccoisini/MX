@@ -10,3 +10,4 @@ pub mod disassembler;
 pub mod driver_installer;
 pub mod pointer_scan;
 pub mod freeze;
+pub mod script;

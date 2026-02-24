@@ -277,17 +277,12 @@ pub(crate) fn search_region_single(
         current = chunk_end;
     }
 
-    // if log_enabled!(Level::Debug) {
-    //     let region_size = end - start;
-    //     debug!(
-    //         "Region stats: size={}MB, reads={} success + {} failed, matches_checked={}, found={}",
-    //         region_size / 1024 / 1024,
-    //         read_success,
-    //         read_failed,
-    //         matches_checked,
-    //         results.len()
-    //     );
-    // }
+    if read_success == 0 && read_failed > 0 {
+        warn!(
+            "Region 0x{:X}-0x{:X} ({}KB): ALL reads failed ({} chunks), 0 results. access_mode may be incompatible.",
+            start, end, (end - start) / 1024, read_failed
+        );
+    }
 
     Ok(results)
 }
