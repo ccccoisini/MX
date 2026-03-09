@@ -59,6 +59,11 @@ class AddressActionDialog(
     private val displayFormats: List<MemoryDisplayFormat>? = null
 ) : BaseDialog(context) {
 
+    companion object {
+        // ARM64 用户态地址仅使用低 48 位；高位可能带有 MTE/TBI tag。
+        private const val ADDRESS_MASK_48BIT = 0x0000FFFFFFFFFFFFuL
+    }
+
     /**
      * 回调接口
      */
@@ -80,6 +85,14 @@ class AddressActionDialog(
     )
 
     private val hexFormat = HexFormat { upperCase = true }
+
+    private fun stripMteTag(address: Long): Long {
+        return (address.toULong() and ADDRESS_MASK_48BIT).toLong()
+    }
+
+    private fun formatUnsignedHex(address: Long): String {
+        return java.lang.Long.toUnsignedString(address, 16).uppercase()
+    }
 
     @SuppressLint("SetTextI18n")
     override fun setupDialog() {
@@ -138,7 +151,7 @@ class AddressActionDialog(
 
         val buffer = ByteBuffer.wrap(memoryBytes).order(ByteOrder.LITTLE_ENDIAN)
         buffer.position(0)
-        return buffer.long
+        return stripMteTag(buffer.long)
     }
 
     /**
@@ -169,7 +182,7 @@ class AddressActionDialog(
 
         actions.addAll(listOf(
             ActionItem(
-                "跳转到指针: ${(pointerAddress ?: 0).toString(16).uppercase()}",
+                "跳转到指针: ${formatUnsignedHex(pointerAddress ?: 0L)}",
                 R.drawable.icon_arrow_right_alt_24px
             ) {
                 dismiss()
@@ -178,7 +191,7 @@ class AddressActionDialog(
                     return@ActionItem
                 }
                 callbacks.onJumpToPointer(address, addr)
-                notification.showSuccess("跳转到指针: 0x${addr.toString(16).uppercase()}")
+                notification.showSuccess("跳转到指针: 0x${formatUnsignedHex(addr)}")
             },
             ActionItem("复制此地址: ${"%X".format(address)}", R.drawable.content_copy_24px) {
                 copyToClipboard("address", address.toString(16).uppercase(), "地址")

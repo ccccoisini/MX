@@ -40,6 +40,7 @@ import moe.fuqiuluo.mamu.floating.dialog.AddressActionSource
 import moe.fuqiuluo.mamu.floating.dialog.BatchModifyValueDialog
 import moe.fuqiuluo.mamu.floating.dialog.ModifyValueDialog
 import moe.fuqiuluo.mamu.floating.dialog.ModuleListDialog
+import moe.fuqiuluo.mamu.floating.dialog.ExportMemoryDialog
 import moe.fuqiuluo.mamu.floating.event.AddressValueChangedEvent
 import moe.fuqiuluo.mamu.floating.event.FloatingEventBus
 import moe.fuqiuluo.mamu.floating.event.SaveAndFreezeEvent
@@ -218,6 +219,7 @@ class MemoryPreviewController(
             ToolbarAction(200, R.drawable.icon_arrow_left_alt_24px, "后退") { navigateBack() },
             ToolbarAction(201, R.drawable.icon_arrow_right_alt_24px, "前进") { navigateForward() },
             ToolbarAction(100, R.drawable.baseline_forward_24, "转到") { showModuleListDialog() },
+            ToolbarAction(10, R.drawable.icon_save_24px, "导出内存") { showExportMemoryDialog() },
             ToolbarAction(2, R.drawable.icon_save_24px, "保存") { saveSelectedToAddresses() },
             ToolbarAction(3, R.drawable.icon_edit_24px, "修改") { showBatchModifyDialog() },
             ToolbarAction(4, R.drawable.flip_to_front_24px, "交叉勾选") { crossSelectBetween() },
@@ -739,6 +741,43 @@ class MemoryPreviewController(
         }
     }
 
+    private fun showExportMemoryDialog() {
+        if (!WuwaDriver.isProcessBound) {
+            notification.showError("未绑定进程")
+            return
+        }
+
+        val currentPid = WuwaDriver.currentBindPid
+        if (currentPid <= 0 || !WuwaDriver.isProcessAlive(currentPid)) {
+            notification.showError("目标进程已退出")
+            return
+        }
+
+        coroutineScope.launch {
+            try {
+                val regions = withContext(Dispatchers.IO) {
+                    WuwaDriver.queryMemRegionsWithRetry(currentPid)
+                        .divideToSimpleMemoryRange()
+                        .sortedBy { it.start }
+                }
+
+                val startAddress = targetAddress ?: currentStartAddress
+                val endAddress = startAddress + PAGE_SIZE - 1
+
+                ExportMemoryDialog(
+                    context = context,
+                    notification = notification,
+                    coroutineScope = coroutineScope,
+                    memoryRegions = regions,
+                    defaultStartAddress = startAddress,
+                    defaultEndAddress = endAddress
+                ).show()
+            } catch (e: Exception) {
+                Log.e(TAG, "加载内存段失败", e)
+                notification.showError("加载内存段失败: ${e.message ?: "未知错误"}")
+            }
+        }
+    }
     private fun saveSelectedToAddresses() {
         val selectedAddresses = adapter.getSelectedAddresses()
         if (selectedAddresses.isEmpty()) {

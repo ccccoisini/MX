@@ -7,10 +7,10 @@ import android.widget.EditText
  * 用于保存和恢复各个对话框输入框的上次输入内容
  */
 object InputHistoryManager {
-    
+
     // 各输入框的历史记录
     private val historyMap = mutableMapOf<String, String>()
-    
+
     // 预定义的输入框Key
     object Keys {
         const val SEARCH_VALUE = "search_value"
@@ -24,37 +24,40 @@ object InputHistoryManager {
         const val FUZZY_SEARCH_VALUE = "fuzzy_search_value"
         const val EXPORT_FILENAME = "export_filename"
         const val IMPORT_FILENAME = "import_filename"
+        const val EXPORT_MEMORY_START = "export_memory_start"
+        const val EXPORT_MEMORY_END = "export_memory_end"
+        const val EXPORT_MEMORY_PATH = "export_memory_path"
         const val OFFSET_CALCULATOR_HEX_MODE = "offset_calculator_hex_mode"
     }
-    
+
     /**
      * 保存输入内容
      */
     fun save(key: String, value: String) {
         historyMap[key] = value
     }
-    
+
     /**
      * 获取上次输入内容
      */
     fun get(key: String): String {
         return historyMap[key] ?: ""
     }
-    
+
     /**
      * 清除指定key的历史
      */
     fun clear(key: String) {
         historyMap.remove(key)
     }
-    
+
     /**
      * 清除所有历史
      */
     fun clearAll() {
         historyMap.clear()
     }
-    
+
     /**
      * 恢复输入框内容并全选（如果有内容）
      * @param editText 输入框
@@ -64,14 +67,14 @@ object InputHistoryManager {
     fun restoreAndSelectAll(editText: EditText, key: String, defaultValue: String = "") {
         val savedValue = get(key)
         val valueToSet = savedValue.ifEmpty { defaultValue }
-        
+
         if (valueToSet.isNotEmpty()) {
             editText.setText(valueToSet)
             // 全选文本，方便用户直接删除或替换
             editText.selectAll()
         }
     }
-    
+
     /**
      * 恢复输入框内容，光标移到末尾
      * @param editText 输入框
@@ -81,13 +84,13 @@ object InputHistoryManager {
     fun restoreWithCursorAtEnd(editText: EditText, key: String, defaultValue: String = "") {
         val savedValue = get(key)
         val valueToSet = savedValue.ifEmpty { defaultValue }
-        
+
         if (valueToSet.isNotEmpty()) {
             editText.setText(valueToSet)
             editText.setSelection(valueToSet.length)
         }
     }
-    
+
     /**
      * 保存输入框当前内容
      * @param editText 输入框
