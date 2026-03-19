@@ -339,5 +339,5 @@ fn java_list_to_string(env: &mut JNIEnv, list: JObject) -> anyhow::Result<String
 /// 检查驱动安装状态
 #[jni_method(90, "moe/fuqiuluo/mamu/driver/WuwaDriver", "nativeIsDriverInstalled", "()Z")]
 pub fn jni_is_driver_installed(_env: JNIEnv, _obj: JObject) -> jboolean {
-    if is_driver_installed(s!("wuwa")) { JNI_TRUE } else { JNI_FALSE }
+    if is_driver_installed(s!("android-wuwa")) { JNI_TRUE } else { JNI_FALSE }
 }
