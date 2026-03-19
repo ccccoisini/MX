@@ -51,7 +51,7 @@ lazy_static! {
 /// 检查驱动是否已安装
 fn is_driver_installed(driver_name: &str) -> bool {
     if let Ok(modules) = fs::read_to_string(s!("/proc/modules")) {
-        modules.lines().any(|line| line.starts_with(s!("wuwa")))
+        modules.lines().any(|line| line.starts_with(s!("android-wuwa")))
     } else {
         false
     }
