@@ -47,8 +47,6 @@ jobs:
 
     - name: Setup Rust toolchain
       uses: dtolnay/rust-toolchain@stable
-      with:
-        toolchain: stable
 
     - name: Install Rust targets
       run: |
@@ -102,9 +100,20 @@ jobs:
         find app/src/main/rust -type d -name incremental -exec rm -rf {} + 2>/dev/null || true
         find app/src/main/rust/target -name "*.rlib" -mtime +7 -delete 2>/dev/null || true
 
-    - name: Decode Release Keystore
+    # 动态生成 keystore
+    - name: Generate temporary keystore
       run: |
-        echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > ${{ github.workspace }}/release.keystore
+        keytool -genkeypair \
+          -v \
+          -keystore release.keystore \
+          -alias temp_alias \
+          -keyalg RSA \
+          -keysize 2048 \
+          -validity 10000 \
+          -storepass temp_password \
+          -keypass temp_password \
+          -dname "CN=CI,O=CI,C=US" \
+          -storetype JKS
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -113,8 +122,8 @@ jobs:
       run: ./gradlew assembleRelease --stacktrace
       env:
         RELEASE_KEYSTORE_PATH: ${{ github.workspace }}/release.keystore
-        RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
-        RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+        RELEASE_KEYSTORE_PASSWORD: temp_password
+        RELEASE_KEY_ALIAS: temp_alias
 
     - name: Upload Release APK
       uses: actions/upload-artifact@v4
